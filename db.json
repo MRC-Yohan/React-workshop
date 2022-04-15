@@ -1,19 +1,45 @@
 {
     "posts": [
-        {
-            "id": 1,
-            "title": "title",
-            "userId": 1,
-            "body": "body",
-            "postImageUrl": "https://picsum.photos/1280/960"
-        },
-        {
-            "id": 2,
-            "title": "title 2",
-            "userId": 2,
-            "body": "body 2",
-            "postImageUrl": "https://picsum.photos/1280/960"
-        }
+      {
+        "id": 2,
+        "title": "TOTO",
+        "userId": 2,
+        "body": "A l'ecole",
+        "postImageUrl": "https://picsum.photos/1280/960"
+      }
     ],
-    "users": []
-}
+    "users": [
+      {
+        "id": 1,
+        "name": "titi tata",
+        "username": "tita",
+        "email": "tita@gmail.com",
+        "address": {
+          "street": "lydia becker",
+          "suite": "Apt. 88",
+          "city": "paris",
+          "zipcode": "75018"
+        },
+        "phone": "0111111111",
+        "company": {
+          "name": "Revers.io"
+        }
+      },
+      {
+        "id": 2,
+        "name": "Ervin Howell",
+        "username": "Antonette",
+        "email": "Shanna@melissa.tv",
+        "address": {
+          "street": "place de la republique",
+          "suite": "Apt. 4",
+          "city": "Wisokyburgh",
+          "zipcode": "75010"
+        },
+        "phone": "0222222222",
+        "company": {
+          "name": "cristal.io"
+        }
+      }
+    ]
+  }

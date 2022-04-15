@@ -3,8 +3,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Picker_Picture, Post, PostContent, User } from '../api/types'
 import Field from '../private/Field'
 import ImageGalleryPicker from './ImageGalleryPicker'
-import {getPost} from '../api/post'
-import { getAllUser } from '../api/user'
+import {getPost, deletePost, updatePost, createPost } from '../api/post'
+import { getAllUser,} from '../api/user'
 
 type FormEvent =
     | React.ChangeEvent<HTMLTextAreaElement>
@@ -36,33 +36,27 @@ const EditPost = () => {
             value: picture.src,
         })
     }
-
-    async function _getUsers(){
-        const data = await getAllUser();
-        setUsers(data);
-    }
    
-    async function _getPost(id: number){
-        const data = await getPost(id);
-        convertToFormData(data)
-    }
-
-    useEffect(() => {
-        // chaque fois que l'id change
-        _getPost(Number(id));
-    }, [id]);
 
     async function handleAddOrCreatePost(
         event: React.FormEvent<HTMLFormElement>
     ) {
+        console.log(formData)
         // remove default reloading page
         event.preventDefault()
+
+        if (id) {
+            await updatePost(formData as Post)
+        } else {
+            await createPost(formData)
+        }
 
         // back to Home
         navigate('/')
     }
 
     async function handleDeletePost() {
+        await deletePost(Number(id))
         // back to Home
         navigate('/')
     }
@@ -90,8 +84,23 @@ const EditPost = () => {
             })
         })
     }
+    async function _getPost(id: number){
+        const data = await getPost(id);
+        convertToFormData(data)
+    }
+    async function _getUsers(){
+        const data = await getAllUser();
+        setUsers(data)
+    }
+    useEffect(() => {
+        _getUsers();
+    }, []);
 
-    
+    useEffect(() => {
+        // chaque fois que l'id change
+        _getPost(Number(id));
+    }, [id]);
+
     function handleToggleModal() {
         // Show & Hide picture modal
         setShowPictureModal((s) => !s)
@@ -109,10 +118,10 @@ const EditPost = () => {
     function getSelectedAuthor() {
         // prevent bad request and use a placeholder if no data
         if (formData.userId) {
-            // [WORK]
-            // You need to find the author name with the server
-            return '[TO DO]'
-        } else {
+            const selectedUser = users.find((user) => user.id === formData.userId)
+            if (selectedUser) {
+                return selectedUser.name;
+            }
             return 'Unknown author'
         }
     }
@@ -189,7 +198,8 @@ const EditPost = () => {
 
                 <div className="field is-grouped is-grouped-centered">
                     <p className="control">
-                        <button type="submit" className="button is-primary">
+                        <button type="submit" className="button is-primary"
+                        >                          
                             Submit
                         </button>
                     </p>
