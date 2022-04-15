@@ -1,7 +1,10 @@
-import React from 'react'
+ import React from 'react'
 
-const AllUsers = () => {
-    return null
-}
 
-export default AllUsers
+ const AllUsers = () => {
+
+return null
+     }
+    
+    export default AllUsers
+    

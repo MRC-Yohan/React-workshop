@@ -1,8 +1,10 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer, useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Picker_Picture, Post, PostContent, User } from '../api/types'
 import Field from '../private/Field'
 import ImageGalleryPicker from './ImageGalleryPicker'
+import {getPost} from '../api/post'
+import { getAllUser } from '../api/user'
 
 type FormEvent =
     | React.ChangeEvent<HTMLTextAreaElement>
@@ -34,6 +36,21 @@ const EditPost = () => {
             value: picture.src,
         })
     }
+
+    async function _getUsers(){
+        const data = await getAllUser();
+        setUsers(data);
+    }
+   
+    async function _getPost(id: number){
+        const data = await getPost(id);
+        convertToFormData(data)
+    }
+
+    useEffect(() => {
+        // chaque fois que l'id change
+        _getPost(Number(id));
+    }, [id]);
 
     async function handleAddOrCreatePost(
         event: React.FormEvent<HTMLFormElement>
@@ -74,6 +91,7 @@ const EditPost = () => {
         })
     }
 
+    
     function handleToggleModal() {
         // Show & Hide picture modal
         setShowPictureModal((s) => !s)
